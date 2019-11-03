@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>ABM Pedidos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/indexStyle.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="formulario col-4">
+                <form method="GET" action="pedidos/guardar" id="formData">
+                    <div id="form">                                        
+                        <label for="nombre">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" maxlength="100" required title="Máximo 100 caracteres" />
+                        <br><br>                           
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" name="cantidad" id="cantidad" required/>
+                        <br><br>   
+                        <label for="descuento">Descuento</label>
+                        <input type="number" name="descuento" id="descuento"/>
+                        <br><br>   
+                        <input type="submit" class="btn btn-info" id="btnCargar" name="btnCargar" value="Enviar formulario">
+                    </div>                   
+                </form>
+                <br>
+                <p class="respuesta">
+
+                <p>
+            </div>   
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.js" ></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="js/scriptIndex.js"></script>
+    </body>
+</html>
