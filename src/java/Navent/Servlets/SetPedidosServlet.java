@@ -1,6 +1,8 @@
-package Mavent.Servlets;
+package Navent.Servlets;
 
-import Mavent.Clases.BumexMencached;
+import Navent.Cache.BumexMemcached;
+import Navent.DataAccess.PedidosDAO;
+import Navent.Entities.Pedido;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -12,31 +14,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class pedidosServlet extends HttpServlet {
+public class SetPedidosServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
-            //Obtengo los datos del formulario por Ajax
-            String nombre = request.getParameter("nombre");
-            String monto = request.getParameter("monto");
-            
-            //Convertir los datos a Objeto y cargarlos en cache
-            
-            //El puerto default de memcached es 11211
-            InetSocketAddress[] servers = new InetSocketAddress[]{
-                new InetSocketAddress("127.0.0.1", 11211)
-            };
-            BumexMencached mc = new BumexMencached(servers);
-            //Así almacenamos un valor
-            //se pasa llave, valor.
-            mc.set("llave", "valor");
-            
-            String valor = (String) mc.get("llave");
+        PrintWriter out = response.getWriter();
 
-        }
+        //Obtengo los datos del formulario por Ajax
+        String nombre = request.getParameter("nombre");
+        String monto = request.getParameter("monto");
+        String descuento = request.getParameter("descuento");
+
+        Pedido pedido = new Pedido(0, nombre, monto, descuento);
+
+        //Conecto a la base de datos y cargo los pedidos
+        //En éste caso en el moc de Dao
+        PedidosDAO pedidoDao = new PedidosDAO();
+        pedidoDao.insertOrUpdate(pedido);
+
+        //Una vez guardado lo cacheo
+        //Conecta el servidor
+        InetSocketAddress[] servers = new InetSocketAddress[]{
+            new InetSocketAddress("127.0.0.1", 11211)
+        };
+        BumexMemcached mc = new BumexMemcached(servers);
+
+        mc.set(String.valueOf(pedido.getIdPedido()), pedido);
+
+        out.println("Pedido creado" + nombre);
+        //toDo: Responder al html                                           
+
     }
 
     /*
@@ -77,7 +85,6 @@ public class pedidosServlet extends HttpServlet {
             Smc -> set ("array", Sarr);
         }                
      */
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -85,7 +92,7 @@ public class pedidosServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(pedidosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetPedidosServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -95,7 +102,7 @@ public class pedidosServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(pedidosServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SetPedidosServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

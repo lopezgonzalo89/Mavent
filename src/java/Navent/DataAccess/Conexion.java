@@ -1,4 +1,4 @@
-package Mavent.Connection;
+package Navent.DataAccess;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
