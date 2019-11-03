@@ -1,26 +1,27 @@
 package Navent.Entities;
 
 public class Pedido {
-    private int _IdPedido;
+
+    private Integer _IdPedido;
     private String _Nombre;
     private String _Monto;
     private String _Descuento;
 
     public Pedido() {
-    }    
+    }
 
-    public Pedido(int _IdPedido, String _Nombre, String _Monto, String _Descuento) {
+    public Pedido(Integer _IdPedido, String _Nombre, String _Monto, String _Descuento) {
         this._IdPedido = _IdPedido;
         this._Nombre = _Nombre;
         this._Monto = _Monto;
         this._Descuento = _Descuento;
-    }        
+    }
 
-    public int getIdPedido() {
+    public Integer getIdPedido() {
         return _IdPedido;
     }
 
-    public void setIdPedido(int _IdPedido) {
+    public void setIdPedido(Integer _IdPedido) {
         this._IdPedido = _IdPedido;
     }
 
@@ -47,6 +48,5 @@ public class Pedido {
     public void setDescuento(String _Descuento) {
         this._Descuento = _Descuento;
     }
- 
-    
+
 }

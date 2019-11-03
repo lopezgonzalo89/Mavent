@@ -3,7 +3,6 @@ package Navent.Servlets;
 import Navent.Cache.BumexMemcached;
 import Navent.DataAccess.PedidosDAO;
 import Navent.Entities.Pedido;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -12,45 +11,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GetPedidosServlet extends HttpServlet {
+public class RemovePedidosServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-               
-        // Conecto a memcached
+
+        String idPedido = request.getParameter("idPedido");
+
+        // Borro en el Dao
+        PedidosDAO pedidoDao = new PedidosDAO();
+        Integer idPedidoInt = Integer.parseInt(idPedido);
+        Pedido pedido = pedidoDao.select(idPedidoInt);
+        pedidoDao.delete(pedido);
+
+        // Borro en el caché
         InetSocketAddress[] servers = new InetSocketAddress[]{
             new InetSocketAddress("127.0.0.1", 11211)
         };
-        BumexMemcached mc = new BumexMemcached(servers);
-        
-        // Busco el pedido en el memcached
-        String idPedido = request.getParameter("idPedido");
-        Pedido pedido = (Pedido) mc.get(idPedido);
-
-        if (pedido == null) {
-            // Busco el pedido en el dao
-            PedidosDAO pedidoDao = new PedidosDAO();
-            int idPedidoInt = Integer.parseInt(idPedido);
-
-            pedido = pedidoDao.select(idPedidoInt);
-
-            if (pedido != null) {
-                // Guardo el pedido en memcached
-                mc.set(idPedido, pedido);
-            }
-        }
-
-        if (pedido != null) {
-            //Devuelvo a la vista en Json
-            String jsonPedido = new Gson().toJson(pedido);
-            out.println(jsonPedido);
-            
-        } else {
-            //no se enco
-            out.println("No se encontro");            
-        }
+        BumexMemcached pedidoCache = new BumexMemcached(servers);
+        pedidoCache.delete(idPedido);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

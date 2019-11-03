@@ -22,69 +22,38 @@ public class SetPedidosServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         //Obtengo los datos del formulario por Ajax
+        String idPedido = request.getParameter("idPedido");
         String nombre = request.getParameter("nombre");
         String monto = request.getParameter("monto");
         String descuento = request.getParameter("descuento");
 
-        Pedido pedido = new Pedido(0, nombre, monto, descuento);
+        // Sino hay idPedido es un nuevo pedido, caso contrario se modifica
+        Integer idPedidoInt = idPedido.length() > 0
+                ? Integer.valueOf(idPedido)
+                : null;
+        
+        
+        Pedido pedido = new Pedido(idPedidoInt, nombre, monto, descuento);
 
         //Conecto a la base de datos y cargo los pedidos
         //En éste caso en el moc de Dao
         PedidosDAO pedidoDao = new PedidosDAO();
         pedidoDao.insertOrUpdate(pedido);
 
-        //Una vez guardado lo cacheo
+        //Cache al guardar cada pedido puede ser buena idea siempre y cuando haya una cantidad razonable para el servidor
         //Conecta el servidor
         InetSocketAddress[] servers = new InetSocketAddress[]{
             new InetSocketAddress("127.0.0.1", 11211)
         };
         BumexMemcached mc = new BumexMemcached(servers);
-
         mc.set(String.valueOf(pedido.getIdPedido()), pedido);
 
-        out.println("Pedido creado" + nombre);
+        out.println("Pedido creado " + nombre);
         //toDo: Responder al html                                           
 
     }
-
-    /*
-        require_once 'dp.php'
-        Scons = "Select * from users";
-        Ssql = mysql_query(Scons);
-        Scon = 0;
-        while (Sres = mysql_fetch_array(Ssql)){
-            Saar(Scon) = Sres;
-            Scon = Scon = 1;
-        }
-        print_r(Sarr);
-        ----------------------
-         CONT = 0;
-        while [ $CONT -le 100]
-        do
-            curl http://127.0.0.1/monitor/testMysql.php
-            let CONT = $CONT + 1
-        done
-        ----------------------
-        
-        Smc = new Mencached();
-        Smc -> addServer("127.0.0.1", 11211);
-        Sres = Sqm -> get ('array');
-        if(Sres != null){
-            echo "Ya está cachedao";
-        print_t(Sres);
-        } else {
-            require_once "db.php";
-            echo "Cacheando";
-            Scons = "Select * from users";
-            Ssql = mysql_query(Scons);
-            Scon = 0;
-            while (Sres = mysql_fetch_array(Ssql)){
-                Saar(Scon) = Sres;
-                Scon = Scon = 1;
-            }
-            Smc -> set ("array", Sarr);
-        }                
-     */
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

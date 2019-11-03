@@ -8,6 +8,10 @@
         <servlet-name>GetPedidosServlet</servlet-name>
         <servlet-class>Navent.Servlets.GetPedidosServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RemovePedidosServlet</servlet-name>
+        <servlet-class>Navent.Servlets.RemovePedidosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SetPedidosServlet</servlet-name>
         <url-pattern>/pedidos/guardar</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>GetPedidosServlet</servlet-name>
         <url-pattern>/pedidos/buscar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemovePedidosServlet</servlet-name>
+        <url-pattern>/pedidos/borrar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
