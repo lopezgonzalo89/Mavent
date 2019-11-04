@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    $("#formData").on("submit", function (e) {
+    $("#formulario").on("submit", function (e) {
         e.preventDefault();
-        // Validar nombre
+        // validar nombre
         nombre = document.getElementById("nombre").value;
         if (nombre.length === 0) {
             document.getElementById("llenarNombre").innerHTML="Ingrese un Nombre";
@@ -12,7 +12,7 @@ $(document).ready(function () {
         } else {
             document.getElementById("llenarNombre").innerHTML="";
         }
-        // Validar monto
+        // validar monto
         monto = document.getElementById("monto").value;        
         if (monto.length === 0) {
             document.getElementById("llenarMonto").innerHTML="Ingrese un Monto";
@@ -24,7 +24,6 @@ $(document).ready(function () {
             type: $(this).attr("method"),
             url: $(this).attr("action"),
             data: $(this).serialize(),
-
             success: function () {
                 $("#respuesta").html("Pedido cargado correctamente");                
             },

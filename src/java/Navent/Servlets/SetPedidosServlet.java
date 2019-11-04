@@ -16,8 +16,7 @@ public class SetPedidosServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        // Datos del formulario traidos por Ajax
+        
         String idPedido = request.getParameter("idPedido");
         String nombre = request.getParameter("nombre");
         String monto = request.getParameter("monto");
@@ -32,9 +31,8 @@ public class SetPedidosServlet extends HttpServlet {
         Pedido pedido = new Pedido(idPedidoInt, nombre, monto, descuento);        
         PedidosDAO.insertOrUpdate(pedido);
 
-        // Prueba de resultado
+        // Test
         Pedido pedidoCacheado = PedidosDAO.select(pedido.getIdPedido());
-
         String jsonPedido = new Gson().toJson(pedidoCacheado);
         out.println(jsonPedido);
     }

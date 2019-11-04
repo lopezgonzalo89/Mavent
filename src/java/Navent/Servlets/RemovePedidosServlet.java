@@ -18,12 +18,12 @@ public class RemovePedidosServlet extends HttpServlet {
 
         String idPedido = request.getParameter("idPedido");
 
-        // Borro en el Dao
+        // Borra en Dao
         Integer idPedidoInt = Integer.parseInt(idPedido);
         Pedido pedido = PedidosDAO.select(idPedidoInt);
         PedidosDAO.delete(pedido);
 
-        // Borro en el caché
+        // Borra en caché
         InetSocketAddress[] servers = new InetSocketAddress[]{
             new InetSocketAddress("127.0.0.1", 11211)
         };

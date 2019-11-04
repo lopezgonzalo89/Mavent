@@ -16,10 +16,9 @@ public class GetPedidosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
-        // Instancia el pedido a buscar
+
         String idPedido = request.getParameter("idPedido");
         
         // Instancia el servidor donde se aloja Memcached        
@@ -33,7 +32,6 @@ public class GetPedidosServlet extends HttpServlet {
         if (pedido == null) {
             // Busca el pedido en DAO
             int idPedidoInt = Integer.parseInt(idPedido);
-
             pedido = PedidosDAO.select(idPedidoInt);
 
             if (pedido != null) {
@@ -42,7 +40,7 @@ public class GetPedidosServlet extends HttpServlet {
             }
         }
         if (pedido != null) {
-            //Respondo el pedido en Json
+            //Responde el pedido en formato Json
             String jsonPedido = new Gson().toJson(pedido);
             out.println(jsonPedido);
         } else {
