@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SetPedidosServlet extends HttpServlet {
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -29,16 +29,13 @@ public class SetPedidosServlet extends HttpServlet {
                 : Integer.valueOf(idPedido);
 
         // Instancia el pedido y se carga en PedidosDAO
-        Pedido pedido = new Pedido(idPedidoInt, nombre, monto, descuento);
-        PedidosDAO pd = new PedidosDAO();
-        pd.insertOrUpdate(pedido);
+        Pedido pedido = new Pedido(idPedidoInt, nombre, monto, descuento);        
+        PedidosDAO.insertOrUpdate(pedido);
 
         // Prueba de resultado
-        Pedido pedidoCacheado = pd.select(pedido.getIdPedido());
+        Pedido pedidoCacheado = PedidosDAO.select(pedido.getIdPedido());
 
         String jsonPedido = new Gson().toJson(pedidoCacheado);
         out.println(jsonPedido);
-
-        //toDo: Enviar confirmación al cliente
     }
 }
