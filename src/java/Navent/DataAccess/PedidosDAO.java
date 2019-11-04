@@ -13,8 +13,11 @@ public class PedidosDAO {
     
     static int ultIdPedido = 0;
     
+    // null, toma como referencia ultIdPedido para crear uno nuevo.
     public void insertOrUpdate(Pedido pedido) {
+        if (pedido.getIdPedido() == null){
         pedido.setIdPedido(++ultIdPedido);
+        }
         mockPedido.put(pedido.getIdPedido(), pedido);
     }
 

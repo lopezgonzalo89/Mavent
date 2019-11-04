@@ -7,19 +7,9 @@ body{
     background-color: midnightblue;
     border: solid 2px white;
     padding: 10px;
+    margin: auto;
 }
-.respuesta {
 
-}
-.btn {
-
-}
-.btn-info {
-
-}
-.container {
-
-}
-.col-4 {
-
+#titulo{
+    
 }
