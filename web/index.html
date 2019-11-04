@@ -13,16 +13,18 @@
                 <form method="GET" action="pedidos/guardar" id="formData">
                     <div id="form">  
                         <h3 id="titulo"> CARGAR PRODUCTO</h3>
-                        <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" maxlength="100" required title="Máximo 100 caracteres" />
-                        <br><br>                           
-                        <label for="monto">Monto</label>
-                        <input type="number" name="monto" id="monto" required/>
-                        <br><br>   
-                        <label for="descuento">Descuento</label>
-                        <input type="number" name="descuento" id="descuento"/>
-                        <br><br>   
-                        <input type="submit" class="btn btn-info" id="btnCargar" name="btnCargar" value="Enviar formulario">
+                        <label class="row col-2" for="nombre">Nombre</label>
+                        <input class="" type="text" name="nombre" id="nombre" maxlength="100" title="Máximo 100 caracteres" autofocus/>
+                        <p class ="completar" id="llenarNombre"></p>
+
+                        <label class="row col-2" for="monto">Monto</label>
+                        <input class="" type="number" name="monto" id="monto" min="0"/>
+                        <p class ="completar" id="llenarMonto"></p>
+
+                        <label class="row col-2" for="descuento">Descuento</label>
+                        <input class="" type="number" name="descuento" id="descuento"/>
+
+                        <input type="submit" class="row" id="btnCargar" name="btnCargar" value="Enviar formulario">
                     </div>
                     <br>
                     <p id="respuesta">
