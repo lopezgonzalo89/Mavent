@@ -34,10 +34,10 @@ public class GetPedidosServlet extends HttpServlet {
         if (pedido == null) {
             out.println("No lo encontró en memcached");
             // Busca el pedido en DAO
-            PedidosDAO pd = new PedidosDAO();
+            PedidosDAO PedidosDAO = new PedidosDAO();
             int idPedidoInt = Integer.parseInt(idPedido);
 
-            pedido = pd.select(idPedidoInt);
+            pedido = PedidosDAO.select(idPedidoInt);
 
             if (pedido != null) {
                 out.println("Lo encontró en DAO --> guardó memcached");
