@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GetPedidosServlet extends HttpServlet {
+public class GetPedidosController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -25,7 +25,8 @@ public class GetPedidosServlet extends HttpServlet {
         InetSocketAddress[] servers = new InetSocketAddress[]{
             new InetSocketAddress("127.0.0.1", 11211)
         };        
-        BumexMemcached mc = new BumexMemcached(servers);
+        // No usa el new BumexMemCached por que es una clase Singleton
+        BumexMemcached mc = BumexMemcached.getCache(servers);
         Pedido pedido = (Pedido) mc.get(idPedido);
         
         // Busca el pedido en Memcached

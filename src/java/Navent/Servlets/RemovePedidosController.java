@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class RemovePedidosServlet extends HttpServlet {
+public class RemovePedidosController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -27,7 +27,7 @@ public class RemovePedidosServlet extends HttpServlet {
         InetSocketAddress[] servers = new InetSocketAddress[]{
             new InetSocketAddress("127.0.0.1", 11211)
         };
-        BumexMemcached pedidoCache = new BumexMemcached(servers);
-        pedidoCache.delete(idPedido);
+        BumexMemcached mc = BumexMemcached.getCache(servers);
+        mc.delete(idPedido);
     }
 }
